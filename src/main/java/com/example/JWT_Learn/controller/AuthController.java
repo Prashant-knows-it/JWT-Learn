@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.JWT_Learn.dto.AuthRequest;
+import com.example.JWT_Learn.dto.AuthResponse;
 import com.example.JWT_Learn.model.Human;
 import com.example.JWT_Learn.repository.HumanRepository;
 import com.example.JWT_Learn.util.JwtUtil;
@@ -28,10 +29,12 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public String login(@RequestBody AuthRequest request) {
+    public AuthResponse login(@RequestBody AuthRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        return jwtUtil.generateToken(authentication);
+        String token = jwtUtil.generateToken(authentication);
+        String refreshToken = jwtUtil.generateRefreshToken(authentication);
+        return new AuthResponse(token, refreshToken);
     }
 
     @PostMapping("/register")
