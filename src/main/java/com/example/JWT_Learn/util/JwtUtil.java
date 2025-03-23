@@ -18,7 +18,7 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtil {
-private final SecretKey secretKey = Keys.hmacShaKeyFor("YourSuperSecretKeyHere".getBytes(StandardCharsets.UTF_8));
+private final SecretKey secretKey = Keys.hmacShaKeyFor("YourSuperSecretKeyYourSuperSecretKey".getBytes(StandardCharsets.UTF_8));
 
     public String generateToken(Authentication authentication) {
         return createToken(authentication.getName(), authentication.getAuthorities(), 1000 * 60 * 60); // 1 hour expiry
