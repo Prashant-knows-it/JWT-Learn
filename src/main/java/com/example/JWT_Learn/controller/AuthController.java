@@ -36,12 +36,12 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequest request) {
+    public ResponseEntity<?> login(@Valid @RequestBody AuthRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         String token = jwtUtil.generateToken(authentication);
         String refreshToken = jwtUtil.generateRefreshToken(authentication);
-        return new AuthResponse(token, refreshToken);
+        return ResponseEntity.ok(new AuthResponse(token, refreshToken));
     }
 
     @PostMapping("/register")
